@@ -526,7 +526,7 @@ export default function Portfolio() {
               <div className="relative aspect-[2/1] h-full md:-mx-8 xl:mx-0 xl:aspect-auto">
                 <img
                   className="absolute inset-0 h-full w-full rounded-2xl bg-gray-800 object-cover shadow-2xl"
-                  src="/anime.jpg"
+                  src="/view-3d-man-using-laptop_23-2150709796.avif"
                   alt=""
                 />
               </div>

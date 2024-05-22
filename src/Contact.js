@@ -289,7 +289,7 @@ export default function Contact() {
               </blockquote>
               <figcaption className="mt-10 flex gap-x-6">
                 <img
-                  // src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=96&h=96&q=80"
+                  src="/view-3d-man-using-laptop_23-2150709796.avif"
                   alt=""
                   className="h-12 w-12 flex-none rounded-full bg-gray-50"
                 />
