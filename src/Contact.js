@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+import emailjs from '@emailjs/browser';
 
 export default function Contact() {
   const defaultEmail = "naveenkumarv1703@gmail.com";
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
     subject: "",
     message: "",
@@ -18,103 +18,29 @@ export default function Contact() {
       [name]: value,
     });
   };
-  const SubmitHandler = (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
-    const emailBody = `
-      <html>
-        <head>
-          <style>
-            body {
-              font-family: Arial, sans-serif;
-              background-color: #f4f4f4;
-              margin: 0;
-              padding: 0;
-            }
-            .container {
-              max-width: 600px;
-              margin: 0 auto;
-              padding: 20px;
-              background-color: #ffffff;
-              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            }
-            h2 {
-              color: #333;
-            }
-            table {
-              width: 100%;
-              border-collapse: collapse;
-              margin-top: 20px;
-            }
-            th, td {
-              border: 1px solid #dddddd;
-              text-align: left;
-              padding: 12px;
-            }
-            th {
-              background-color: #f2f2f2;
-              color: #333;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <h2>Complaint Details</h2>
-            <table>
-              <tr>
-                <th>Name</th>
-                <td>${formData.firstName}</td>
-              </tr>
-              <tr>
-                <th>Department</th>
-                <td>${formData.lastName}</td>
-              </tr>
-              <tr>
-                <th>Query/Concern</th>
-                <td>${formData.email}</td>
-              </tr>
-              <tr>
-              <th>Query/Concern</th>
-              <td>${formData.subject}</td>
-            </tr>
-            <tr>
-            <th>Query/Concern</th>
-            <td>${formData.message}</td>
-          </tr>
-            </table>
-          </div>
-        </body>
-      </html>
-    `;
-    const config = {
-      SecureToken: "61fae6ea-1584-4c07-9a19-e02a9aa69c18",
-      To: "naveenkumav1703@gmail.com",
-      From: formData.email,
-      Subject: `Complaint From ${formData.name}`,
-      /*Body: `Name: ${formData.name}
-           Department: ${formData.department}
-           Complaint/Concern: ${formData.complaint}`*/
-      Body: `${emailBody}`,
-    };
 
-    if (window.Email) {
-      window.Email.send(config).then((message) => {
-        // Check if the email was sent successfully
-        if (message === "OK") {
+    emailjs
+      .sendForm(
+        "service_4kv10yr",
+        "template_x869y74",
+        e.target,
+        "1X6X64NhQgLQt9KT_"
+      )
+      .then(
+        () => {
           setFormData({
-            firstName: "",
-            lastName: "",
+            name: "",
             email: "",
             subject: "",
             message: "",
           });
-          alert(
-            "We have received your concern, and we assure you that we will resolve it promptly."
-          );
-        } else {
-          alert(message); // Display the message returned by the email sending function
+        },
+        (error) => {
+          console.log("FAILED...", error.text);
         }
-      });
-    }
+      );
   };
   return (
     <div
@@ -155,54 +81,36 @@ export default function Contact() {
           Let’s talk about your project
         </h2>
         <p className="mt-2 text-lg leading-8 text-gray-600">
-          We help companies and individuals build out their brand guidelines.
-        </p>
+        I'm here to collaborate with you on your project aspirations   
+             </p>
         <div className="mt-16 flex flex-col gap-16 sm:gap-y-20 lg:flex-row">
-          <form onSubmit={SubmitHandler} className="lg:flex-auto">
+          <form onSubmit={submitHandler} className="lg:flex-auto">
             <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
               <div>
                 <label
-                  htmlFor="first-name"
-                  className="block text-sm font-semibold leading-6 text-gray-900"
+                  htmlFor="name"
+                  className="flex  text-sm font-semibold leading-6 text-gray-900"
                 >
-                  First name
+                  Name
                 </label>
                 <div className="mt-2.5">
                   <input
                     type="text"
-                    name="firstName"
-                    id="firstName"
+                    name="name"
+                    id="name"
                     autoComplete="given-name"
-                    value={formData.firstName}
+                    value={formData.name}
                     onChange={handleInputChange}
                     className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
-              <div>
-                <label
-                  htmlFor="lastName"
-                  className="block text-sm font-semibold leading-6 text-gray-900"
-                >
-                  Last name
-                </label>
-                <div className="mt-2.5">
-                  <input
-                    type="text"
-                    name="lastName"
-                    id="lastName"
-                    autoComplete="family-name"
-                    value={formData.lastName}
-                    onChange={handleInputChange}
-                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div>
+             
 
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-semibold leading-6 text-gray-900"
+                  className="flex text-sm font-semibold leading-6 text-gray-900"
                 >
                   Email{" "}
                 </label>
@@ -218,10 +126,10 @@ export default function Contact() {
                 </div>
               </div>
 
-              <div>
+              <div className="sm:col-span-2 ">
                 <label
                   htmlFor="subject"
-                  className="block text-sm font-semibold leading-6 text-gray-900"
+                  className="flex text-sm font-semibold leading-6 text-gray-900"
                 >
                   Subject{" "}
                 </label>
@@ -240,7 +148,7 @@ export default function Contact() {
               <div className="sm:col-span-2">
                 <label
                   htmlFor="message"
-                  className="block text-sm font-semibold leading-6 text-gray-900"
+                  className="flex text-sm font-semibold leading-6 text-gray-900"
                 >
                   Message
                 </label>
@@ -276,28 +184,26 @@ export default function Contact() {
           <div className="lg:mt-6 lg:w-80 lg:flex-none">
             <img
               className="h-12 w-auto"
-              src="https://tailwindui.com/img/logos/workcation-logo-indigo-600.svg"
+              src=""
               alt=""
             />
             <figure className="mt-10">
               <blockquote className="text-lg font-semibold leading-8 text-gray-900">
                 <p>
-                  “Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo
-                  expedita voluptas culpa sapiente alias molestiae. Numquam
-                  corrupti in laborum sed rerum et corporis.”
+                  “If you're looking to elevate your web presence, I'm here to help. With a passion for crafting engaging and user-friendly digital experiences, I specialize in turning ideas into reality.”
                 </p>
               </blockquote>
-              <figcaption className="mt-10 flex gap-x-6">
+              <figcaption className="mt-10 flex gap-x-3">
                 <img
                   src="/view-3d-man-using-laptop_23-2150709796.avif"
                   alt=""
                   className="h-12 w-12 flex-none rounded-full bg-gray-50"
                 />
                 <div>
-                  <div className="text-base font-semibold text-gray-900">
+                  <div className="ml-1 text-base font-semibold text-gray-900">
                     Naveen Kumar{" "}
                   </div>
-                  <div className="text-sm leading-6 text-gray-600">
+                  <div className="mr-2 text-sm leading-6 text-gray-600">
                     Web developer{" "}
                   </div>
                 </div>
