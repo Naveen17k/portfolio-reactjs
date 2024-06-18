@@ -11,7 +11,50 @@ import { motion } from "framer-motion";
 import { LiaLinkedin } from "react-icons/lia";
 import { LiaTelegram } from "react-icons/lia";
 import Contact from "./Contact";
-
+import { useAnimation } from 'framer-motion';
+import { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
+const posts = [
+  {
+    id: 1,
+    title: 'Corporate Sports Club',
+    href: 'https://github.com/Naveen17k/',
+    description:
+      'Developed a comprehensive sports event management platform for Corporate Sports Club.',
+    imageUrl:
+      '/basketball.jpg',
+    date: 'Mar 16, 2020',
+    datetime: '2020-03-16',
+    category: { title: 'Marketing', href: '#' },
+    author: {
+      name: 'Michael Foster',
+      role: 'Co-Founder / CTO',
+      href: '#',
+      imageUrl:
+        'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    },
+  },
+  {
+    id: 1,
+    title: 'Hospital Token Management System',
+    href: 'https://github.com/Naveen17k/hospital-token-management-system',
+    description:
+      'Developed a hospital token management system enabling patients to register for tokens via an token registration form.',
+    imageUrl:
+      '/[GetPaidStock.com]-65d83f15a7c9b.jpg',
+    date: 'Mar 16, 2020',
+    datetime: '2020-03-16',
+    category: { title: 'Marketing', href: '#' },
+    author: {
+      name: 'Michael Foster',
+      role: 'Co-Founder / CTO',
+      href: '#',
+      imageUrl:
+        'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    },
+  },
+  // More posts...
+]
 const navigation = [
   { name: "Home", targetId: "home" },
   { name: "About", targetId: "about" },
@@ -71,7 +114,6 @@ const testimonials = [
             "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
         },
       },
-      // More testimonials...
     ],
     [
       {
@@ -82,7 +124,6 @@ const testimonials = [
             "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
         },
       },
-      // More testimonials...
     ],
   ],
   [
@@ -95,7 +136,6 @@ const testimonials = [
             "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
         },
       },
-      // More testimonials...
     ],
     [
       {
@@ -106,7 +146,6 @@ const testimonials = [
             "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
         },
       },
-      // More testimonials...
     ],
   ],
 ];
@@ -159,6 +198,44 @@ export default function Portfolio() {
   };
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const aboutControls = useAnimation();
+  const [aboutRef, aboutInView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  useEffect(() => {
+    if (aboutInView) {
+      aboutControls.start('visible');
+    }
+  }, [aboutControls, aboutInView]);
+
+  const aboutVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 },
+  };
+
+
+  const skillsControls = useAnimation();
+  const [skillsRef, skillsInView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  useEffect(() => {
+    if (skillsInView) {
+      skillsControls.start('visible');
+    }
+  }, [skillsControls, skillsInView]);
+
+  const skillsVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 },
+  };
+
+
+
+
 
   return (
     <div className="bg-white">
@@ -332,7 +409,7 @@ export default function Portfolio() {
                   transform="translate(24 24)"
                   clipPath="url(#2ade4387-9c63-4fc4-b754-10e687a0d332)"
                 >
-                  <img src="/github.png" alt="" />
+                  <img src="/git-overview.png" alt="" />
                 </foreignObject>
               </svg>
             </div>
@@ -340,173 +417,228 @@ export default function Portfolio() {
         </motion.div>
 
         {/* {about} */}
-        <div id="about" className=" mt-20 relative isolate pt-8">
-          <svg
-            className="absolute inset-0 -z-10 hidden h-full w-full stroke-gray-200 [mask-image:radial-gradient(64rem_64rem_at_top,white,transparent)] sm:block"
-            aria-hidden="true"
+        <div id="about" className="mt-20 relative isolate pt-8">
+      <svg
+        className="absolute inset-0 -z-10 hidden h-full w-full stroke-gray-200 [mask-image:radial-gradient(64rem_64rem_at_top,white,transparent)] sm:block"
+        aria-hidden="true"
+      >
+        <defs>
+          <pattern
+            id="55d3d46d-692e-45f2-becd-d8bdc9344f45"
+            width={200}
+            height={200}
+            x="50%"
+            y={0}
+            patternUnits="userSpaceOnUse"
           >
-            <defs>
-              <pattern
-                id="55d3d46d-692e-45f2-becd-d8bdc9344f45"
-                width={200}
-                height={200}
-                x="50%"
-                y={0}
-                patternUnits="userSpaceOnUse"
-              >
-                <path d="M.5 200V.5H200" fill="none" />
-              </pattern>
-            </defs>
-            <svg x="50%" y={0} className="overflow-visible fill-gray-50">
-              <path
-                d="M-200.5 0h201v201h-201Z M599.5 0h201v201h-201Z M399.5 400h201v201h-201Z M-400.5 600h201v201h-201Z"
-                strokeWidth={0}
-              />
-            </svg>
-            <rect
-              width="100%"
-              height="100%"
-              strokeWidth={0}
-              fill="url(#55d3d46d-692e-45f2-becd-d8bdc9344f45)"
-            />
-          </svg>
-          <div className="relative">
-            <div
-              className="absolute inset-x-0 top-1/2 -z-10 -translate-y-1/2 transform-gpu overflow-hidden opacity-30 blur-3xl"
-              aria-hidden="true"
+            <path d="M.5 200V.5H200" fill="none" />
+          </pattern>
+        </defs>
+        <svg x="50%" y={0} className="overflow-visible fill-gray-50">
+          <path
+            d="M-200.5 0h201v201h-201Z M599.5 0h201v201h-201Z M399.5 400h201v201h-201Z M-400.5 600h201v201h-201Z"
+            strokeWidth={0}
+          />
+        </svg>
+        <rect
+          width="100%"
+          height="100%"
+          strokeWidth={0}
+          fill="url(#55d3d46d-692e-45f2-becd-d8bdc9344f45)"
+        />
+      </svg>
+      <div className="relative">
+        <div
+          className="absolute inset-x-0 top-1/2 -z-10 -translate-y-1/2 transform-gpu overflow-hidden opacity-30 blur-3xl"
+          aria-hidden="true"
+        >
+          <div
+            className="ml-[max(50%,38rem)] aspect-[1313/771] w-[82.0625rem] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc]"
+            style={{
+              clipPath:
+                'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
+            }}
+          />
+        </div>
+        <div
+          className="absolute inset-x-0 top-0 -z-10 flex transform-gpu overflow-hidden pt-8 opacity-25 blur-3xl xl:justify-end"
+          aria-hidden="true"
+        >
+          <div
+            className="ml-[-22rem] aspect-[1313/771] w-[82.0625rem] flex-none origin-top-right rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] xl:ml-0 xl:mr-[calc(50%-12rem)]"
+            style={{
+              clipPath:
+                'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
+            }}
+          />
+        </div>
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-xl sm:text-center">
+            <h2 className="text-lg font-semibold leading-8 tracking-tight text-indigo-600">
+              About Me{' '}
+            </h2>
+            <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              Here are few lines about myself{' '}
+            </p>
+          </div>
+          <div ref={aboutRef} className="mx-auto mt-16 grid max-w-2xl grid-cols-1 grid-rows-1 gap-8 text-sm leading-6 text-gray-900 sm:mt-20 sm:grid-cols-2 xl:mx-0 xl:max-w-none xl:grid-flow-col xl:grid-cols-4">
+          <motion.figure
+              className="col-span-2 hidden sm:block sm:rounded-2xl sm:bg-white sm:shadow-lg sm:ring-1 sm:ring-gray-900/5 xl:col-start-2 xl:row-end-1"
+              initial="hidden"
+              animate={aboutControls}
+              variants={aboutVariants}
+              transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <div
-                className="ml-[max(50%,38rem)] aspect-[1313/771] w-[82.0625rem] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc]"
-                style={{
-                  clipPath:
-                    "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-                }}
-              />
-            </div>
-            <div
-              className="absolute inset-x-0 top-0 -z-10 flex transform-gpu overflow-hidden pt-8 opacity-25 blur-3xl xl:justify-end"
-              aria-hidden="true"
-            >
-              <div
-                className="ml-[-22rem] aspect-[1313/771] w-[82.0625rem] flex-none origin-top-right rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] xl:ml-0 xl:mr-[calc(50%-12rem)]"
-                style={{
-                  clipPath:
-                    "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-                }}
-              />
-            </div>
-            <div className="mx-auto max-w-7xl px-6 lg:px-8">
-              <div className="mx-auto max-w-xl sm:text-center">
-                <h2 className=" text-lg font-semibold leading-8 tracking-tight text-indigo-600">
-                  About Me{" "}
-                </h2>
-                <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                  Here are few lines about myself{" "}
-                </p>
-              </div>
-              <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 grid-rows-1 gap-8 text-sm leading-6 text-gray-900 sm:mt-20 sm:grid-cols-2 xl:mx-0 xl:max-w-none xl:grid-flow-col xl:grid-cols-4">
-                <figure className="col-span-2 hidden sm:block sm:rounded-2xl sm:bg-white sm:shadow-lg sm:ring-1 sm:ring-gray-900/5 xl:col-start-2 xl:row-end-1">
-                  <blockquote className="p-12 text-xl font-semibold leading-8 tracking-tight text-gray-900">
-                    <p>{`“${featuredTestimonial.body}”`}</p>
-                  </blockquote>
-                </figure>
-                {testimonials.map((columnGroup, columnGroupIdx) => (
+              <blockquote className="p-12 text-xl font-semibold leading-8 tracking-tight text-gray-900">
+                <p>{`“${featuredTestimonial.body}”`}</p>
+              </blockquote>
+            </motion.figure>
+            {testimonials.map((columnGroup, columnGroupIdx) => (
+              <div key={columnGroupIdx} className="space-y-8 xl:contents xl:space-y-0">
+                {columnGroup.map((column, columnIdx) => (
                   <div
-                    key={columnGroupIdx}
-                    className="space-y-8 xl:contents xl:space-y-0"
+                    key={columnIdx}
+                    className={classNames(
+                      (columnGroupIdx === 0 && columnIdx === 0) ||
+                      (columnGroupIdx === testimonials.length - 1 && columnIdx === columnGroup.length - 1)
+                        ? 'xl:row-span-2'
+                        : 'xl:row-start-1',
+                      'space-y-8'
+                    )}
                   >
-                    {columnGroup.map((column, columnIdx) => (
-                      <div
-                        key={columnIdx}
-                        className={classNames(
-                          (columnGroupIdx === 0 && columnIdx === 0) ||
-                            (columnGroupIdx === testimonials.length - 1 &&
-                              columnIdx === columnGroup.length - 1)
-                            ? "xl:row-span-2"
-                            : "xl:row-start-1",
-                          "space-y-8"
-                        )}
+                    {column.map((testimonial, idx) => (
+                      <motion.figure
+                        key={testimonial.author.handle}
+                        className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5"
+                        initial="hidden"
+                        animate={aboutControls}
+                        variants={aboutVariants}
+                        transition={{ duration: 0.6, delay: 0.2 * (columnGroupIdx * column.length + idx) }}
                       >
-                        {column.map((testimonial) => (
-                          <figure
-                            key={testimonial.author.handle}
-                            className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5"
-                          >
-                            <div className="font-bold text-lg mb-2">
-                              {testimonial.author.name}
-                            </div>
-                            <blockquote className="text-gray-900">
-                              <p>{`${testimonial.body}`}</p>
-                            </blockquote>
-                            <figcaption className="mt-6 flex items-center gap-x-4"></figcaption>
-                          </figure>
-                        ))}
-                      </div>
+                        <div className="font-bold text-lg mb-2">{testimonial.author.name}</div>
+                        <blockquote className="text-gray-900">
+                          <p>{`${testimonial.body}`}</p>
+                        </blockquote>
+                        <figcaption className="mt-6 flex items-center gap-x-4"></figcaption>
+                      </motion.figure>
                     ))}
                   </div>
                 ))}
               </div>
-            </div>
+            ))}
           </div>
         </div>
+      </div>
+    </div>
 
         {/* {Skills} */}
-        <div
-          id="skills"
-          className=" mt-20  flex mx-auto items-center justify-center"
-        >
-          <div className="mx-auto max-w-xl sm:text-center">
-            <h2 className="text-3xl font-bold mb-10 leading-8 tracking-tight text-indigo-600">
-              Skills{" "}
-            </h2>
-
-            <ul role="list" className="mb-8">
-              {timeline.map((event, eventIdx) => (
-                <li key={event.id}>
-                  <div className="relative pb-8">
-                    {eventIdx !== timeline.length - 1 ? (
-                      <span
-                        className="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200"
-                        aria-hidden="true"
-                      />
-                    ) : null}
-                    <div className="relative flex space-x-3">
-                      <div>
-                        <span
-                          className={classNames(
-                            event.iconBackground,
-                            "h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white"
-                          )}
-                        >
-                          <event.icon
-                            className="h-5 w-5 text-white"
-                            aria-hidden="true"
-                          />
-                        </span>
-                      </div>
-                      <div className="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
-                        <div>
-                          <p className="text-sm text-gray-500">
-                            {event.content}{" "}
-                            <a
-                              href={event.href}
-                              className="font-medium text-gray-900"
-                            >
-                              {event.target}
-                            </a>
-                          </p>
-                        </div>
-                        <div className="whitespace-nowrap text-right text-sm text-gray-500">
-                          <time dateTime={event.datetime}>{event.date}</time>
-                        </div>
-                      </div>
+        <div id="skills" className="mt-20 flex mx-auto items-center justify-center">
+      <div className="mx-auto max-w-xl sm:text-center">
+        <h2 className="text-3xl font-bold mb-10 leading-8 tracking-tight text-indigo-600">
+          Skills{' '}
+        </h2>
+        <ul ref={skillsRef} role="list" className="mb-8">
+          {timeline.map((event, eventIdx) => (
+              <motion.li
+              key={event.id}
+              initial="hidden"
+              animate={skillsControls}
+              variants={skillsVariants}
+              transition={{ duration: 0.6, delay: 0.2 * eventIdx }}
+            >
+              <div className="relative pb-8">
+                {eventIdx !== timeline.length - 1 ? (
+                  <span className="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true" />
+                ) : null}
+                <div className="relative flex space-x-3">
+                  <div>
+                    <span
+                      className={classNames(
+                        event.iconBackground,
+                        'h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white'
+                      )}
+                    >
+                      <event.icon className="h-5 w-5 text-white" aria-hidden="true" />
+                    </span>
+                  </div>
+                  <div className="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+                    <div>
+                      <p className="text-sm text-gray-500">
+                        {event.content}{' '}
+                        <a href={event.href} className="font-medium text-gray-900">
+                          {event.target}
+                        </a>
+                      </p>
+                    </div>
+                    <div className="whitespace-nowrap text-right text-sm text-gray-500">
+                      <time dateTime={event.datetime}>{event.date}</time>
                     </div>
                   </div>
-                </li>
-              ))}
-            </ul>
+                </div>
+              </div>
+            </motion.li>
+          ))}
+        </ul>
+      </div>
+    </div>
+        {/* project section */}
+      
+        <div className="bg-white py-24 sm:py-32">
+  <div className="mx-auto max-w-7xl px-6 lg:px-8">
+    <div className="mx-auto max-w-2xl text-center">
+      <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Projects</h2>
+      <p className="mt-2 text-lg leading-8 text-gray-600">
+        Explore some of my projects and see how I bring ideas to life.
+      </p>
+    </div>
+    <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+      {posts.map((post) => (
+        <article key={post.id} className="flex flex-col items-start justify-between border border-gray-300 rounded-lg p-7">
+          <div className="relative w-full">
+            <img
+              src={post.imageUrl}
+              alt=""
+              className="aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
+            />
+            <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
           </div>
-        </div>
+          <div className="max-w-xl">
+            <div className="group relative">
+              <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+                <a href={post.href}>
+                  <span className="absolute inset-0" />
+                  {post.title}
+                </a>
+              </h3>
+              <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">{post.description}</p>
+            </div>
+            <a
+              href={post.href}
+              className="mt-5 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            >
+              <svg
+                className="w-5 h-5 mr-2"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M12 0C5.373 0 0 5.373 0 12c0 5.303 3.438 9.8 8.205 11.387.6.111.82-.261.82-.579 0-.285-.01-1.04-.016-2.042-3.338.724-4.042-1.614-4.042-1.614-.546-1.387-1.333-1.756-1.333-1.756-1.091-.746.083-.73.083-.73 1.205.084 1.838 1.237 1.838 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.42-1.304.762-1.605-2.665-.305-5.466-1.334-5.466-5.934 0-1.31.47-2.38 1.236-3.22-.124-.303-.536-1.527.118-3.176 0 0 1.008-.322 3.3 1.23a11.445 11.445 0 013.003-.404c1.02.005 2.045.138 3.002.404 2.292-1.552 3.3-1.23 3.3-1.23.654 1.649.242 2.873.118 3.176.767.84 1.236 1.91 1.236 3.22 0 4.61-2.802 5.625-5.475 5.921.431.371.815 1.104.815 2.225 0 1.607-.014 2.902-.014 3.293 0 .321.218.694.825.576C20.565 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              View on GitHub
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</div>
+
+
+
 
         {/* Connect section */}
         <div className="relative z-10  bg-gray-900 pb-20 mt-20 mb-16 sm:pb-24 xl:pb-0">
@@ -591,13 +723,10 @@ export default function Portfolio() {
               </a>
             ))}
           </div>
-          <p className="mt-10 text-center text-xs leading-5 text-gray-500">
-            &copy; 2020 Your Company, Inc. All rights reserved.
-          </p>
+         
         </div>
       </footer>
 
-      {/* {contact} */}
     </div>
   );
 }
