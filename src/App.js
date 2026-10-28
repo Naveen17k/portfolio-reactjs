@@ -1,11 +1,7 @@
-import './App.css';
-import Portfolio from './Portfolio';
+import Portfolio from "./Portfolio";
+
 function App() {
-  return (
-    <div className="App">
-      <Portfolio />
-    </div>
-  );
+  return <Portfolio />;
 }
 
 export default App;
